@@ -17,7 +17,7 @@ from status_codes import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED_ACCESS, HTT
 app = Flask(__name__)
 
 db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///gbstii.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DB_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.environ.get('SECRET_KEY')
 # initialize the app with the extension
