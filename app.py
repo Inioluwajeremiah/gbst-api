@@ -12,11 +12,10 @@ import os
 from status_codes import HTTP_200_OK, HTTP_201_CREATED
 from status_codes import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED_ACCESS, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 
-# export JWT_SECRET_KEY = '757c3957d719b1019712ac7c7aaa9ab1'
-
 app = Flask(__name__)
 
 db = SQLAlchemy()
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("SQLALCHEMY_DB_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = os.environ.get('SECRET_KEY')
