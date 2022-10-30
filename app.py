@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import validators
 # from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from flask_sqlalchemy import SQLAlchemy
-# from . database import User, db
+
 from datetime import datetime
 import os
 
@@ -16,7 +16,8 @@ app = Flask(__name__)
 
 db = SQLAlchemy()
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL").replace("://", "ql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['JWT_SECRET_KEY'] = os.environ.get('SECRET_KEY')
 # initialize the app with the extension
