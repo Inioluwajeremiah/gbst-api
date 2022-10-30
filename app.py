@@ -48,7 +48,7 @@ class DietIntervention(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     diet_image_url = db.Column(db.Text, nullable=False)
     diet_title = db.Column(db.String(150), nullable=False)
-    diet_description = db.Column(db.Text(1000), nullable=False)
+    diet_description = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     reads = db.Column(db.Integer, default=0)
     likes = db.Column(db.Integer, default=0)
