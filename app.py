@@ -32,7 +32,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.Text(50), nullable=False)
+    password = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now())
     date_updated = db.Column(db.DateTime, onupdate=datetime.now())
     dietIntervention = db.relationship('DietIntervention', backref="user")
