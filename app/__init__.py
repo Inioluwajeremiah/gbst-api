@@ -32,6 +32,10 @@ def create_app(test_config=None):
     def load_user(user_id):
         return User.query.get(user_id)
 
+    @app.get('/')
+    def home():
+        return "GBST APP"
+
     # import blueprints
     from .routes.bloodsugarTest import  blood_sugar_test_blueprint
     from .routes.childbirthOutcome import child_birth_outcome_blueprint
