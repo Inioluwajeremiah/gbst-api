@@ -30,13 +30,39 @@ def enrollment():
         ethnicity = Markup.escape(ethnicity)
         occupation = Markup.escape(occupation)
 
+        enrollment = Enrollment.query.filter_by(user_id=current_user.id).first()
 
-        enrollment = Enrollment(age_at_last_birthday=age, level_of_education = educationLevel,
-            marital_status = maritalStatus, religion = religion, ethnicity = ethnicity,
-            occupation = occupation, user_id=current_user.id)
+        if enrollment:
+            if age:
+                enrollment.age_at_last_birthday = age
+                db.session.commit()
+            if educationLevel:
+                enrollment.level_of_education = educationLevel
+                db.session.commit()
+            if maritalStatus:
+                enrollment.marital_status = maritalStatus
+                db.session.commit()
+            if religion:
+                enrollment.religion = religion
+                db.session.commit()
+            if ethnicity:
+                enrollment.ethnicity = ethnicity
+                db.session.commit()
+            if occupation:
+                enrollment.occupation = occupation
+                db.session.commit()
+            return {"message": "Data saved successfully!"}
+
+
+        if not enrollment:
+            enrollment = Enrollment(age_at_last_birthday=age, level_of_education = educationLevel,
+                marital_status = maritalStatus, religion = religion, ethnicity = ethnicity,
+                occupation = occupation, user_id=current_user.id)
         
-        db.session.add(enrollment)
-        db.session.commit()
+            db.session.add(enrollment)
+            db.session.commit()
+
+            return {"message": "Data saved successfully!"}
 
         return {"message": "Data saved successfully!"}, HTTP_200_OK
     return {"message": "Bad request"}, HTTP_400_BAD_REQUEST
