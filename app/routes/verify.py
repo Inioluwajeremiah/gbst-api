@@ -14,16 +14,8 @@ import datetime
 
 verify_blueprint = Blueprint("verify", __name__)
 
-@verify_blueprint.route("/", methods=["GET", "POST"])
-def verify():
-
-    if request.method == "GET":
-        pass
-    if request.method == "POST":
-        pass
-
 # verify user
-@verify_blueprint.get('/verify/<token>')
+@verify_blueprint.get('/token/<token>')
 def verify_user_token(token):
     serializer = URLSafeTimedSerializer(os.environ.get('SECRET_KEY'))
     try:
@@ -54,7 +46,7 @@ def verify_user_token(token):
          return {"message": f"{e}"}
 
 # verify user using authentication code
-@verify_blueprint.route('/verify_user', methods=['POST'])
+@verify_blueprint.route('/code', methods=['POST'])
 def verify_user_code():
         # get code and email from form
     email = request.json['email']

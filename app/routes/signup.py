@@ -1,20 +1,15 @@
-from flask import Blueprint, request, jsonify, session, url_for, make_response
+from flask import Blueprint, request, url_for
 from werkzeug.security import generate_password_hash
 from markupsafe import Markup
 import validators
-from app.status_codes import HTTP_200_OK, HTTP_201_CREATED,\
-    HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED_ACCESS, HTTP_404_NOT_FOUND, \
-    HTTP_409_CONFLICT, HTTP_500_INTERNAL_SERVER_ERROR
+from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
 import random
 from app.databaseModel import db, User
 from app import mail
 from flask_mail import Message
 import datetime
-from datetime import timezone
-from os import  urandom
 from itsdangerous import URLSafeTimedSerializer
 import os
-import base64
 
 
 # Create the blueprint instance
@@ -47,7 +42,7 @@ def sendEmail(eml, code):
     serializer = URLSafeTimedSerializer(os.environ.get('SECRET_KEY'))
     token = serializer.dumps(eml, salt='email-verification')
     # Create a verification link
-    verification_link = url_for('verify.verify', token=token, _external=True)
+    verification_link = url_for('verify.verify_user_token', token=token, _external=True)
     msg = Message("Authentication Code", recipients=[eml])
     
     # msg.html = f"<div style='padding:8px; background-color:#2563eb; color:#f5f5f5; font-weight:bold; border-radius:20px;'> \
