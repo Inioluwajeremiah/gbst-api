@@ -105,7 +105,7 @@ def signup():
         return {"message":"Invalid email address"}, HTTP_400_BAD_REQUEST
 
     if user_verified:
-        return {"message": "User already exists, kindly login to your account"}, HTTP_400_BAD_REQUEST
+        return {"message": "User already exists, kindly signin to your account"}, HTTP_400_BAD_REQUEST
     if user_but_not_verified:
         return {"message": "User already signed up but not verified"}, HTTP_400_BAD_REQUEST
     

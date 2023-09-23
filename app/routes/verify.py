@@ -64,7 +64,7 @@ def verify_user_code():
     
     #  if user is already verified
     if user.is_verified:
-        return {"message": "User already verified, you can proceed to login"}, HTTP_400_BAD_REQUEST
+        return {"message": "User already verified, you can proceed to Signin"}, HTTP_400_BAD_REQUEST
     
     # compare input code and retrieved code
     user_otp = user.otp

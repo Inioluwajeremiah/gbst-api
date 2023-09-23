@@ -31,7 +31,7 @@ def signin():
             is_password_correct = check_password_hash(user.password, password)
             if is_password_correct:
                 login_user(user)
-                return{'message': 'Login successful!'}, HTTP_200_OK
+                return{'message': 'Signin successful!'}, HTTP_200_OK
             else:
                 return {"message": "Incorrect password"}, HTTP_401_UNAUTHORIZED_ACCESS
         return {"message": "User does not exist"}, HTTP_400_BAD_REQUEST
