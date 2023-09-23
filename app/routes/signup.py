@@ -2,7 +2,7 @@ from flask import Blueprint, request, url_for
 from werkzeug.security import generate_password_hash
 from markupsafe import Markup
 import validators
-from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
+from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND, HTTP_409_CONFLICT
 import random
 from app.databaseModel import db, User
 from app import mail
@@ -131,6 +131,32 @@ def signup():
             return {"message": f"error sending authentication code. Reason: {e}"}, HTTP_500_INTERNAL_SERVER_ERROR
     
 
+# resend verification code
+@signup_blueprint.route('/resend_code', methods=['POST'])
+def resend_code():
+
+    email = request.json['email']
+
+    user_verified = User.query.filter_by(email=email, is_verified=True).first()
+    user = User.query.filter_by(email=email, is_verified=False).first()
+
+    if user_verified:
+        return {"message": "User already verified"}, HTTP_409_CONFLICT
+    if not user:
+        return {"message": "User not found"}, HTTP_404_NOT_FOUND
+    if user:
+        # expiration time
+        expiration_time = datetime.datetime.utcnow() + datetime.timedelta(days=3)
+        otp = generate_random_code()
+        user.otp = otp
+        user.expiration_time = expiration_time
+
+        db.session.add(user)
+        db.session.commit()
+        sendEmail(email, otp)
+        return {"message": f"Authentication code sent to {email}"}
+    
+          
 
 # #test data
 # "firstname":"firstname",
