@@ -41,7 +41,7 @@ def verify_user_token(token):
             db.session.commit()
             # delete email from session
             session.pop('email', None)
-            return {"success_message": "User verification successful"},  HTTP_200_OK
+            return {"message": "User verification successful"},  HTTP_200_OK
     except Exception as e:
          return {"message": f"{e}"}
 
@@ -86,7 +86,7 @@ def verify_user_code():
         db.session.commit()
         # delete email from session
         session.pop('email', None)
-        return {"success_message": "Verification successful"},  HTTP_200_OK
+        return {"message": "Verification successful!"},  HTTP_200_OK
 
 
 

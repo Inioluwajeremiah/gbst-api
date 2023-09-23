@@ -35,7 +35,7 @@ def is_valid_password(password):
 
 # generate 6 digits code
 def generate_random_code():
-    return random.randint(100000, 999999)
+    return random.randint(1000, 9999)
 
 # send code to email
 def sendEmail(eml, code):
@@ -82,12 +82,21 @@ def sendEmail(eml, code):
 # home
 @signup_blueprint.post('/')
 def signup():
+    fullname = request.json['fullname']
     email = request.json['email']
     password = request.json['password']
 
     # clean input
+    fullname = Markup.escape(fullname)
     email = Markup.escape(email)
     password =  Markup.escape(password)
+
+    if not fullname:
+        return {"message": "Fullname is required"}, HTTP_400_BAD_REQUEST
+    if not email:
+        return {"message": "Email is required"}, HTTP_400_BAD_REQUEST
+    if not password:
+        return {"message": "Password is required"}, HTTP_400_BAD_REQUEST
 
     user_verified = User.query.filter_by(email=email, is_verified=True).first()
     user_but_not_verified = User.query.filter_by(email=email, is_verified=False).first()
