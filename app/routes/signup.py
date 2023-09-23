@@ -123,7 +123,7 @@ def signup():
     try:
         sendEmail(email, otp)
             # add user to database
-        user = User(email=email, password=hashed_password, otp=otp, expiration_time=expiration_time)
+        user = User(fullname=fullname, email=email, password=hashed_password, otp=otp, expiration_time=expiration_time)
         db.session.add(user)
         db.session.commit()
         return {"message": "Authentication code sent to user email"}, HTTP_200_OK
@@ -151,7 +151,7 @@ def resend_code():
         user.otp = otp
         user.expiration_time = expiration_time
 
-        # db.session.add(user)
+        db.session.add(user)
         db.session.commit()
         sendEmail(email, otp)
         return {"message": f"Authentication code sent to {email}"}
