@@ -151,7 +151,7 @@ def resend_code():
         user.otp = otp
         user.expiration_time = expiration_time
 
-        db.session.add(user)
+        # db.session.add(user)
         db.session.commit()
         sendEmail(email, otp)
         return {"message": f"Authentication code sent to {email}"}
