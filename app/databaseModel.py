@@ -34,6 +34,15 @@ class ChildBirthOutcome(db.Model):
 
 class ClinicalHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    weight = db.Column(db.Integer, nullable=False)
+    height = db.Column(db.Integer, nullable=False) 
+    bmi = db.Column(db.Integer, nullable=False) 
+    armCircumference = db.Column(db.Integer, nullable=False) 
+    waistCircumference = db.Column(db.Integer, nullable=False) 
+    hipCircumference = db.Column(db.Integer, nullable=False) 
+    waistHipCircumference = db.Column(db.Integer, nullable=False) 
+    gestationalAge = db.Column(db.Integer, nullable=False) 
+
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
 
 class Diet(db.Model):
@@ -48,8 +57,8 @@ class Enrollment(db.Model):
     religion = db.Column(db.String(50))
     ethnicity = db.Column(db.String(50))
     occupation = db.Column(db.String(200))
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
 
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
 
 class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,13 +1,14 @@
 
 from flask import Blueprint, request
 from markupsafe import Markup
-from app.databaseModel import db, User, MedicalHistory
+from app.databaseModel import db, MedicalHistory
 from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from flask_login import login_required, current_user
 
 medical_history_blueprint = Blueprint("medical_history", __name__)
 
 @medical_history_blueprint.route("/", methods=["GET", "POST"])
+@login_required
 def medical_history ():
 
     if request.method == "GET":
