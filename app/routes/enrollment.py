@@ -1,7 +1,7 @@
 
 from flask import Blueprint, request
 from markupsafe import Markup
-from app.databaseModel import db, User, Enrollment
+from app.databaseModel import db, Enrollment
 from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from flask_login import login_required, current_user
 
@@ -62,9 +62,8 @@ def enrollment():
             db.session.add(enrollment)
             db.session.commit()
 
-            return {"message": "Data saved successfully!"}
+            return {"message": "Data saved successfully!"}, HTTP_200_OK
 
-        return {"message": "Data saved successfully!"}, HTTP_200_OK
     return {"message": "Bad request"}, HTTP_400_BAD_REQUEST
 
 

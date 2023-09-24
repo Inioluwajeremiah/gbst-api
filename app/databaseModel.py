@@ -61,6 +61,15 @@ class FetalKickCount(db.Model):
 
 class MedicalHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    hypertension = db.Column(db.String(10), nullable=False)
+    diabetes = db.Column(db.String(10), nullable=False)
+    asthma = db.Column(db.String(10), nullable=False)
+    chronicLungDisease  = db.Column(db.String(10), nullable=False)
+    sickleCellDisease = db.Column(db.String(10), nullable=False)
+    pcos = db.Column(db.String(10), nullable=False)
+    diabetesDuration = db.Column(db.Integer, nullable=False)
+    gdm = db.Column(db.String(10), nullable=False)
+    
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
     
 class ObstetricInformation(db.Model):
