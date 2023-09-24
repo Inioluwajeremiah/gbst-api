@@ -48,22 +48,53 @@ def medical_history ():
             return {"message": "Duration of diabetes required"}
         if not gdm:
             return {"message": "Gestaional Diabetes response required"}
+        
+        medicalHistory = MedicalHistory.query.filter_by(user_id=current_user.id).first()
 
-        # medicalHistory = MedicalHistory.query.filter_by(user_id=current_user.id).first()
-        medicalHistory = MedicalHistory(
-            hypertension = hypertension,
-            diabetes = diabetes,
-            asthma = asthma,
-            chronicLungDisease  = chronicLungDisease,
-            sickleCellDisease = sickleCellDisease,
-            pcos = pcos,
-            diabetesDuration = diabetesDuration,
-            gdm = gdm,
-            user_id=current_user.id
-            )
-        db.session.add(medicalHistory)
-        db.session.commit()
-        return {"message": "Data saved successfully!"}, HTTP_200_OK
+        if medicalHistory:
+            if hypertension:
+                medicalHistory.hypertension = hypertension
+                db.session.commit()
+            if diabetes:
+                medicalHistory.diabetes = diabetes
+                db.session.commit()
+            if asthma:
+                medicalHistory.asthma = asthma
+                db.session.commit()
+            if chronicLungDisease:
+                medicalHistory.chronicLungDisease = chronicLungDisease
+                db.session.commit()
+            if sickleCellDisease:
+                medicalHistory.sickleCellDisease = sickleCellDisease
+                db.session.commit()
+            if pcos:
+                medicalHistory.pcos = pcos
+                db.session.commit()
+            if diabetesDuration:
+                medicalHistory.diabetesDuration = diabetesDuration
+                db.session.commit()
+            if gdm:
+                medicalHistory.gdm = gdm
+                db.session.commit()
+            return {"message": "Medical History saved successfully!"}, HTTP_200_OK
+            
+        if not medicalHistory:
+
+            # medicalHistory = MedicalHistory.query.filter_by(user_id=current_user.id).first()
+            medicalHistory = MedicalHistory(
+                hypertension = hypertension,
+                diabetes = diabetes,
+                asthma = asthma,
+                chronicLungDisease  = chronicLungDisease,
+                sickleCellDisease = sickleCellDisease,
+                pcos = pcos,
+                diabetesDuration = diabetesDuration,
+                gdm = gdm,
+                user_id=current_user.id
+                )
+            db.session.add(medicalHistory)
+            db.session.commit()
+            return {"message": "Medical History saved successfully!"}, HTTP_200_OK
 
     return {"message": "Bad request"}, HTTP_400_BAD_REQUEST
 

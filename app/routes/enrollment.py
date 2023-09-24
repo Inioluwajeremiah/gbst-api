@@ -51,7 +51,7 @@ def enrollment():
             if occupation:
                 enrollment.occupation = occupation
                 db.session.commit()
-            return {"message": "Data saved successfully!"}
+            return {"message": "Enrollment ID saved successfully!"}
 
 
         if not enrollment:
@@ -62,7 +62,7 @@ def enrollment():
             db.session.add(enrollment)
             db.session.commit()
 
-            return {"message": "Data saved successfully!"}, HTTP_200_OK
+            return {"message": "Enrollment ID saved successfully!"}, HTTP_200_OK
 
     return {"message": "Bad request"}, HTTP_400_BAD_REQUEST
 
