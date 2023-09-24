@@ -34,14 +34,14 @@ class ChildBirthOutcome(db.Model):
 
 class ClinicalHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    weight = db.Column(db.Integer, nullable=False)
-    height = db.Column(db.Integer, nullable=False) 
-    bmi = db.Column(db.Integer, nullable=False) 
-    armCircumference = db.Column(db.Integer, nullable=False) 
-    waistCircumference = db.Column(db.Integer, nullable=False) 
-    hipCircumference = db.Column(db.Integer, nullable=False) 
-    waistHipCircumference = db.Column(db.Integer, nullable=False) 
-    gestationalAge = db.Column(db.Integer, nullable=False) 
+    weight = db.Column(db.Integer)
+    height = db.Column(db.Integer) 
+    bmi = db.Column(db.Integer) 
+    armCircumference = db.Column(db.Integer) 
+    waistCircumference = db.Column(db.Integer) 
+    hipCircumference = db.Column(db.Integer) 
+    waistHipCircumference = db.Column(db.Integer) 
+    gestationalAge = db.Column(db.Integer) 
 
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
 
