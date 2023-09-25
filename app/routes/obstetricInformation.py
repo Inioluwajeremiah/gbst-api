@@ -8,6 +8,7 @@ from flask_login import login_required, current_user
 obstetric_information_blueprint = Blueprint("obstetric_information", __name__)
 
 @obstetric_information_blueprint.route("/", methods=["GET", "POST"])
+@login_required
 def obstetric_information ():
 
     if request.method == "GET":

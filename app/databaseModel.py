@@ -29,6 +29,11 @@ class BloodSugarTest(db.Model):
 
 class ChildBirthOutcome(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    deliverymode = db.Column(db.String(50))
+    weight = db.Column(db.Integer)
+    childbirthOutcome = db.Column(db.String(50))
+    bloodSugar = db.Column(db.String(50))
+    bloodSugarAfterSixweeks = db.Column(db.String(50))
 
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
 
