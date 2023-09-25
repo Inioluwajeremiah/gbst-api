@@ -89,7 +89,7 @@ class ObstetricInformation(db.Model):
     noOfChildbirthDeliveries = db.Column(db.Integer)
     fourKgBirthWeight = db.Column(db.String(10))
     anyStillbirth = db.Column(db.String(10))
-    cogrnitalMalformation = db.Column(db.String(10))
+    cogenitalMalformation = db.Column(db.String(10))
     lastTimeOFMenstralPeriod = db.Column(db.Integer)
     gestationalAge = db.Column(db.Integer)
 
