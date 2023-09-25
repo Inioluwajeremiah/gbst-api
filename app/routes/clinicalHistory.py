@@ -33,21 +33,21 @@ def clinical_history ():
         gestationalAge = Markup.escape(gestationalAge)
 
         if not weight:
-            return {"message": "weight response required"}
+            return {"message": "Weight required"}
         if not height:
-            return {"message": "height response required"}
+            return {"message": "Height required"}
         if not bmi:
-            return {"message": "bmi response required"}
+            return {"message": "BMI required"}
         if not armCircumference:
-            return {"message": "Chronic Lung Disease response required"}
+            return {"message": "Arm circumference required"}
         if not waistCircumference:
-            return {"message": "Sickle Cell Disease response required"}
+            return {"message": "Waist circumference required"}
         if not hipCircumference:
-            return {"message": "Polycytist Ovary Syndrome response required"}
+            return {"message": "Hip circumference required"}
         if not waistHipCircumference:
-            return {"message": "Duration of height required"}
+            return {"message": "Waist-Hip circumference required"}
         if not gestationalAge:
-            return {"message": "Gestaional height response required"}
+            return {"message": "Gestaional age required"}
         
         clinicalHistory = ClinicalHistory.query.filter_by(user_id=current_user.id).first()
 

@@ -83,7 +83,18 @@ class MedicalHistory(db.Model):
     
 class ObstetricInformation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    noOfPregnancies = db.Column(db.Integer)
+    noOfMiscarriages = db.Column(db.Integer)
+    noOfVoluntaryPregnacyTermination = db.Column(db.Integer )
+    noOfChildbirthDeliveries = db.Column(db.Integer)
+    fourKgBirthWeight = db.Column(db.String(10))
+    anyStillbirth = db.Column(db.String(10))
+    cogrnitalMalformation = db.Column(db.String(10))
+    lastTimeOFMenstralPeriod = db.Column(db.Integer)
+    gestationalAge = db.Column(db.Integer)
+
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+
 class Predict(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
