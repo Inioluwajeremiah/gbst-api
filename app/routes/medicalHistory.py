@@ -23,6 +23,7 @@ def medical_history ():
         pcos = request.json['pcos']
         diabetesDuration = request.json['diabetesDuration']
         gdm = request.json['gdm']
+        history = request.json['history']
 
         hypertension = Markup.escape(hypertension)
         diabetes = Markup.escape(diabetes)
@@ -32,6 +33,7 @@ def medical_history ():
         pcos = Markup.escape(pcos)
         diabetesDuration = Markup.escape(diabetesDuration)
         gdm = Markup.escape(gdm)
+        history = Markup.escape(history)
 
         if not hypertension:
             return {"message": "Hypertension response required"}
@@ -49,6 +51,10 @@ def medical_history ():
             return {"message": "Duration of diabetes required"}
         if not gdm:
             return {"message": "Gestaional Diabetes response required"}
+        if not history:
+            return {"message": "History of Gestational Diabetes Mellitus in your family is required"}
+        
+         # if fields are not cimpuslory only comment out the codes above
         
         medicalHistory = MedicalHistory.query.filter_by(user_id=current_user.id).first()
 
@@ -77,6 +83,9 @@ def medical_history ():
             if gdm:
                 medicalHistory.gdm = gdm
                 db.session.commit()
+            if history:
+                medicalHistory.history = history
+                db.session.commit()
             return {"message": "Medical History saved successfully!"}, HTTP_200_OK
             
         if not medicalHistory:
@@ -91,6 +100,7 @@ def medical_history ():
                 pcos = pcos,
                 diabetesDuration = diabetesDuration,
                 gdm = gdm,
+                history = history,
                 user_id=current_user.id
                 )
             db.session.add(medicalHistory)

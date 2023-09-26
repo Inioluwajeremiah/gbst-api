@@ -22,6 +22,7 @@ def enrollment():
         religion = request.json['religion']
         ethnicity = request.json['ethnicity']
         occupation = request.json['occupation']
+        sedentary = request.json['sedentary']
 
         age = Markup.escape(age)
         educationLevel = Markup.escape(educationLevel)
@@ -29,6 +30,7 @@ def enrollment():
         religion = Markup.escape(religion)
         ethnicity = Markup.escape(ethnicity)
         occupation = Markup.escape(occupation)
+        sedentary =Markup.escape(sedentary)
 
         enrollment = Enrollment.query.filter_by(user_id=current_user.id).first()
 
@@ -51,13 +53,15 @@ def enrollment():
             if occupation:
                 enrollment.occupation = occupation
                 db.session.commit()
+            if sedentary:
+                enrollment.sedentary = sedentary
+                db.session.commit()
             return {"message": "Enrollment ID saved successfully!"}
-
 
         if not enrollment:
             enrollment = Enrollment(age_at_last_birthday=age, level_of_education = educationLevel,
                 marital_status = maritalStatus, religion = religion, ethnicity = ethnicity,
-                occupation = occupation, user_id=current_user.id)
+                occupation = occupation, sedentary = sedentary, user_id=current_user.id)
         
             db.session.add(enrollment)
             db.session.commit()

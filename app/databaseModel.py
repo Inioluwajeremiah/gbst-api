@@ -1,5 +1,6 @@
 from app import db
 from flask_login import UserMixin
+from datetime import date
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,6 +10,7 @@ class User(UserMixin, db.Model):
     otp = db.Column(db.String(6), nullable=False)
     expiration_time = db.Column(db.DateTime, nullable=False)
     is_verified = db.Column(db.Boolean, default=False)
+    date = db.Column(db.Date, default=date.today)
 
     bloodsugarTest = db.relationship("BloodSugarTest", backref="user")
     childbirthOutcome = db.relationship("ChildBirthOutcome", backref="user")
@@ -24,8 +26,9 @@ class User(UserMixin, db.Model):
 
 class BloodSugarTest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    date = db.Column(db.Date, default=date.today)
 
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class ChildBirthOutcome(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,8 +37,9 @@ class ChildBirthOutcome(db.Model):
     childbirthOutcome = db.Column(db.String(50))
     bloodSugar = db.Column(db.String(50))
     bloodSugarAfterSixweeks = db.Column(db.String(50))
+    date = db.Column(db.Date, default=date.today)
 
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class ClinicalHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,12 +51,15 @@ class ClinicalHistory(db.Model):
     hipCircumference = db.Column(db.Integer) 
     waistHipCircumference = db.Column(db.Integer) 
     gestationalAge = db.Column(db.Integer) 
+    date = db.Column(db.Date, default=date.today)
 
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Diet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    date = db.Column(db.Date, default=date.today)
+
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Enrollment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,16 +69,22 @@ class Enrollment(db.Model):
     religion = db.Column(db.String(50))
     ethnicity = db.Column(db.String(50))
     occupation = db.Column(db.String(200))
+    sedentary = db.Column(db.String(10))
+    date = db.Column(db.Date, default=date.today)
 
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, default=date.today)
 
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 class FetalKickCount(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    date = db.Column(db.Date, default=date.today)
+
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class MedicalHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -83,12 +96,15 @@ class MedicalHistory(db.Model):
     pcos = db.Column(db.String(10), nullable=False)
     diabetesDuration = db.Column(db.Integer, nullable=False)
     gdm = db.Column(db.String(10), nullable=False)
+    history = db.Column(db.String(10), nullable=True)
+    date = db.Column(db.Date, default=date.today)
     
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
 class ObstetricInformation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     noOfPregnancies = db.Column(db.Integer)
+    gestationPeriod = db.Column(db.Integer)
     noOfMiscarriages = db.Column(db.Integer)
     noOfVoluntaryPregnacyTermination = db.Column(db.Integer )
     noOfChildbirthDeliveries = db.Column(db.Integer)
@@ -97,14 +113,24 @@ class ObstetricInformation(db.Model):
     cogenitalMalformation = db.Column(db.String(10))
     lastTimeOFMenstralPeriod = db.Column(db.Integer)
     gestationalAge = db.Column(db.Integer)
+    unexplainedPrenatalLoss = db.Column(db.String(10))
+    systolicBP = db.Column(db.String(10))
+    dialstolicBP = db.Column(db.String(10))
+    date = db.Column(db.Date, default=date.today)
 
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Predict(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    result = db.Column(db.Integer)
+    date = db.Column(db.Date, default=date.today)
+
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    date = db.Column(db.Date, default=date.today)
+
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 

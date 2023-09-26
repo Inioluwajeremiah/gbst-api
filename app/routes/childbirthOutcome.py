@@ -38,6 +38,8 @@ def child_birth_test ():
         if not bloodSugarAfterSixweeks:
             return {"message": "Blood sugar result six weeks after birth required"}
         
+         # if fields are not cimpuslory only comment out the codes above
+        
         childBirthOutcome = ChildBirthOutcome.query.filter_by(user_id=current_user.id).first()
 
         if childBirthOutcome:
@@ -74,4 +76,5 @@ def child_birth_test ():
             return {"message": "Outcome of childbirth saved successfully!"}, HTTP_200_OK
 
     return {"message": "Bad request"}, HTTP_400_BAD_REQUEST
+
     

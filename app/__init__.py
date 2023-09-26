@@ -53,7 +53,6 @@ def create_app(test_config=None):
     from .routes.signout import signout_blueprint
     from .routes.verify import verify_blueprint
 
-
      # Register blueprints
     app.register_blueprint(blood_sugar_test_blueprint, url_prefix="/blood_sugar_test")
     app.register_blueprint(child_birth_outcome_blueprint, url_prefix="/child_birth_outcome")

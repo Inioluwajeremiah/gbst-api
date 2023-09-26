@@ -49,6 +49,8 @@ def clinical_history ():
         if not gestationalAge:
             return {"message": "Gestaional age required"}
         
+         # if fields are not cimpuslory only comment out the codes above
+        
         clinicalHistory = ClinicalHistory.query.filter_by(user_id=current_user.id).first()
 
         if clinicalHistory:
