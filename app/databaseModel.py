@@ -129,6 +129,7 @@ class Predict(db.Model):
     
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    profile_picture = db.Column(db.String(1000))
     date = db.Column(db.Date, default=date.today)
 
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -14,6 +14,8 @@ class Config:
     MAIL_USERNAME = 'gbstaiapp@gmail.com'
     MAIL_PASSWORD = os.environ.get('APP_PASSWORD')
     MAIL_DEFAULT_SENDER = 'gbstaiapp@gmail.com'
+    MAX_CONTENT_LENGTH = 1 * 1024 * 1024   #1mb photo size 
+    UPLOAD_FOLDER = 'profile_image'
 
 class TestConfig(Config):
     # Testing configuration
