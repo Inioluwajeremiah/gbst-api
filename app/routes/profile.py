@@ -24,9 +24,13 @@ def upload_picture():
             return jsonify(error='File size exceeds the limit (1 MB)'), HTTP_400_BAD_REQUEST
 
         filename = secure_filename(file.filename)
-        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        path = os.path.join(current_app.config['UPLOAD_FOLDER']) + '/' + filename
-        profile_picture_uri = f"https://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/profile_image/{filename}"
+        file_extension = os.path.splitext(filename)[1]
+        new_name = "profileImage" + file_extension
+        # file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+
+        file.save('/home/gbstaiapp/gbst-api/profile_image/'+ new_name)
+        path = os.path.join(current_app.config['UPLOAD_FOLDER']) + '/' + new_name
+        profile_picture_uri = f"http://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/profile_image/{new_name}"
         if profile:
             profile.profile_picture = profile_picture_uri
             db.session.commit()
