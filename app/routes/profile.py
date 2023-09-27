@@ -25,7 +25,7 @@ def upload_picture():
 
         filename = secure_filename(file.filename)
         file_extension = os.path.splitext(filename)[1]
-        new_name = "profileImage" + file_extension
+        new_name = current_user.id + "gbstaiapp_image" + file_extension
         # file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
         file.save('/home/gbstaiapp/gbst-api/profile_image/'+ new_name)
