@@ -21,6 +21,7 @@ def create_app(test_config=None):
 
 
     # CORS(app,  resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+    CORS(app)
     db.init_app(app)
     mail.init_app(app)
     migrate = Migrate(app, db)
