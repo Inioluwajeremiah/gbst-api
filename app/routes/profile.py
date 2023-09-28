@@ -124,6 +124,6 @@ def fullname():
 
     user = User.query.filter_by(id=current_user.id).first()
     if user:
-        return {"fullname":user.fullname}
+        return {"fullname":user.fullname,' email':user.email}
 
 
