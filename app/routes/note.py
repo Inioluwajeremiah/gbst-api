@@ -92,6 +92,14 @@ def predict():
         return jsonify({'result': predict_gbst.tolist()[0]})
     
 
+        Press the "i" key to enter insert mode in your text editor.
+        Write a meaningful commit message that explains why this merge is necessary 
+        and any important context or changes involved in the merge.
+        Once you've entered the commit message, press the "Esc" key to exit insert mode.
+        To save and exit the text editor, you can type ":wq" (colon, "w" for write, "q" for quit) 
+        and then press "Enter."
+        Your commit message will be saved, and the merge operation will proceed with the provided
+        message. If you want to abort the merge, you can simply save an empty commit message 
+        and exit the text editor.
 
-# dd
 """

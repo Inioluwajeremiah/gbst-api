@@ -6,10 +6,12 @@ from flask_mail import Mail
 from .config import Config
 from flask_login import LoginManager
 from datetime import timedelta
+from flask_socketio import SocketIO
 
 db = SQLAlchemy()
 mail = Mail()
 login_manager = LoginManager()
+
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -21,14 +23,22 @@ def create_app(test_config=None):
 
 
     # CORS(app,  resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+
     CORS(app)
     db.init_app(app)
     mail.init_app(app)
     migrate = Migrate(app, db)
     login_manager.init_app(app)
+    socketio = SocketIO(app, 
+        logger=True, engineio_logger=True, allow_upgrades=True,
+        cors_allowed_origins = "*",
+        ping_timeout = 5,
+        ping_interval = 5,
+        message_queue = "redis://"
+    )
     login_manager.remember_cookie_duration = timedelta(days=30)
-    from .databaseModel import User
 
+    from .databaseModel import User
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
@@ -53,6 +63,7 @@ def create_app(test_config=None):
     from .routes.signin import  signin_blueprint
     from .routes.signout import signout_blueprint
     from .routes.verify import verify_blueprint
+    from .routes.notification import notification_blueprint
 
      # Register blueprints
     app.register_blueprint(blood_sugar_test_blueprint, url_prefix="/blood_sugar_test")
@@ -70,7 +81,8 @@ def create_app(test_config=None):
     app.register_blueprint(signin_blueprint, url_prefix='/signin')
     app.register_blueprint(signout_blueprint, url_prefix='/signout')
     app.register_blueprint(verify_blueprint, url_prefix="/verify")
+    app.register_blueprint(notification_blueprint, url_prefix="/notification")
 
 
-    return app
+    return app, socketio
 
