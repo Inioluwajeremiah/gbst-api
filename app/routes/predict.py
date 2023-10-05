@@ -1,30 +1,55 @@
 from flask import jsonify, Blueprint
-from app.databaseModel import db, Enrollment, MedicalHistory, ClinicalHistory, ChildBirthOutcome, ObstetricInformation, Predict
+from app.databaseModel import db, User, Enrollment, MedicalHistory, ClinicalHistory, ChildBirthOutcome, ObstetricInformation, Predict
 from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from flask_login import login_required, current_user
 import pickle
 import pandas as pd
 from datetime import date
 
+from datetime import date
+from flask_mail import Message
+from app import mail
 predict_blueprint = Blueprint("predict", __name__)
+
+# send code to email
+def sendEmail(eml, result):
+    msg = Message("Notification", recipients=[eml])
+    logo_url = "https://firebasestorage.googleapis.com/v0/b/gbst-cc5c3.appspot.com/o/icon3.png?alt=media&token=0e87eed5-9ea1-4fa7-8b46-0fd0a10b9c81"
+    msg.html = f"""
+                <div style='background-color:#f0efef; padding: 2rem 1rem;'>
+                    <div style='background-color:#fff; max-width:32rem; width:90%; margin: 2rem auto; padding: 2rem 1rem'> 
+                        <div style='display:flex; align-items:center; justify-items:center;'>
+                            <img src={logo_url} alt="virtual church logo" style="width:5rem; height:5rem;"/>
+                            <h1> <a href="" style='color:#66CA98; font-size:1.5em;'>GBST</a></h1>
+                        </div>
+                        <h3 style='padding:5px 2px; font-size:2em'>Result Notification</h3> 
+                        <p style='font-size:1.2em;'>Thank you for subscribing to our service. Your health is our priority!</p> 
+                        <p style="font-size:1.2em;">
+                            {result}
+                        </p> 
+                        
+                    </div>
+                </div>
+            """
+    mail.send(msg)
 
 
 @predict_blueprint.get('/')
 @login_required
 def predict():
-    # Pregnancies	Glucose	BloodPressure	SkinThickness	Insulin	BMI	DiabetesPedigreeFunction	Age
     
     model = pickle.load(open('model.pkl', 'rb'))
     current_date = date.today()
     current_date_str = current_date.strftime("%Y-%m-%d")
 
-    Enrollment, MedicalHistory, ClinicalHistory, ChildBirthOutcome, ObstetricInformation
+    user_id = current_user.id
 
-    childBirthOutcome = ChildBirthOutcome.query.filter_by(user_id=current_user.id,date=current_date_str).first()
-    medicalHistory = MedicalHistory.query.filter_by(user_id=current_user.id).first()
-    clinicalHistory = ClinicalHistory.query.filter_by(user_id=current_user.id).first()
-    enrollment = Enrollment.query.filter_by(user_id=current_user.id).first()
-    obstetricInformation = ObstetricInformation.query.filter_by(user_id=current_user.id).first()
+    user = User.query.filter_by(id=user_id).first()
+    childBirthOutcome = ChildBirthOutcome.query.filter_by(user_id=user_id,date=current_date_str).first()
+    medicalHistory = MedicalHistory.query.filter_by(user_id=user_id).first()
+    clinicalHistory = ClinicalHistory.query.filter_by(user_id=user_id).first()
+    enrollment = Enrollment.query.filter_by(user_id=user_id).first()
+    obstetricInformation = ObstetricInformation.query.filter_by(user_id=user_id).first()
     
 
     age = obstetricInformation.gestationalAge
@@ -105,8 +130,13 @@ def predict():
             predict.result = prediction_outcome
             db.session.commit()
             if prediction_outcome == 1:
+                message = "Your result shows that you don't have GDM"
+                sendEmail(user.email, message)
                 return {'message': "You don't have GDM"}, HTTP_200_OK
+                
             if prediction_outcome == 0:
+                message = "Your result shows that you have GDM"
+                sendEmail(user.email, message)
                 return {'message': 'You have GDM'}, HTTP_200_OK
         except Exception as e:
             return {"message":f"{e}{dictionary_data}"}

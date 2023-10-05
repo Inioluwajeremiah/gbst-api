@@ -2,16 +2,17 @@ from flask import Flask
 from flask_sqlalchemy import  SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from .config import Config
 from flask_login import LoginManager
 from datetime import timedelta
-from flask_socketio import SocketIO
+
+# this for apscheduler notification
+from .status_codes import HTTP_200_OK
 
 db = SQLAlchemy()
 mail = Mail()
 login_manager = LoginManager()
-
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -29,14 +30,9 @@ def create_app(test_config=None):
     mail.init_app(app)
     migrate = Migrate(app, db)
     login_manager.init_app(app)
-    socketio = SocketIO(app, 
-        logger=True, engineio_logger=True, allow_upgrades=True,
-        cors_allowed_origins = "*",
-        ping_timeout = 5,
-        ping_interval = 5,
-        message_queue = "redis://"
-    )
     login_manager.remember_cookie_duration = timedelta(days=30)
+    # scheduler.init_app(app)
+    # scheduler.start()
 
     from .databaseModel import User
     @login_manager.user_loader
@@ -83,6 +79,5 @@ def create_app(test_config=None):
     app.register_blueprint(verify_blueprint, url_prefix="/verify")
     app.register_blueprint(notification_blueprint, url_prefix="/notification")
 
-
-    return app, socketio
+    return app
 

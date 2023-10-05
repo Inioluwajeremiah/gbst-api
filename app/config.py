@@ -16,6 +16,8 @@ class Config:
     MAIL_DEFAULT_SENDER = 'gbstaiapp@gmail.com'
     MAX_CONTENT_LENGTH = 1 * 1024 * 1024   #1mb photo size 
     UPLOAD_FOLDER = 'profile_image'
+    MESSAGE_QUEUE = 'redis://localhost:6379/0'
+
 
 class TestConfig(Config):
     # Testing configuration

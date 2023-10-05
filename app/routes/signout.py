@@ -8,7 +8,7 @@ from flask_login import  login_user, logout_user, login_required
 
 signout_blueprint = Blueprint("signout", __name__)
 
-@signout_blueprint.post("/")
+@signout_blueprint.get("/")
 @login_required
 def signout():
     logout_user()

@@ -44,19 +44,6 @@ def sendEmail(eml, code):
     # Create a verification link
     verification_link = url_for('verify.verify_user_token', token=token, _external=True)
     msg = Message("Authentication Code", recipients=[eml])
-    
-    # msg.html = f"<div style='padding:8px; background-color:#2563eb; color:#f5f5f5; font-weight:bold; border-radius:20px;'> \
-    #                 <h3 style='padding:5px 2px; text-align:center; color:#f5f5f5;'>SIWES Authentication Code</h3> \
-    #                 <p style='color:#f5f5f5;'>Here is your authentication code for SIWES. <br/> <b>NB:</b> \
-    #                 Code expires in 10 mins.</p> \
-    #                 <h4 style='text:center; letter-spacing:5px;'>{code}</h4> \
-    #                 <p style='padding:5px; color:#fff;'>or visit this link for verficaation: {verification_link}</p> \
-    #             <div>" 
-
-# data:image/jpeg;base64,{encoded_logo}
-    # Read and encode the image
-    # with open("/logo.png", 'rb') as virtual_church_logo:
-    #     encoded_logo = base64.b64encode(virtual_church_logo.read()).decode('utf-8')
 
     logo_url = "https://firebasestorage.googleapis.com/v0/b/gbst-cc5c3.appspot.com/o/icon3.png?alt=media&token=0e87eed5-9ea1-4fa7-8b46-0fd0a10b9c81"
     msg.html = f"""

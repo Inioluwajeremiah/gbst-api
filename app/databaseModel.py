@@ -1,6 +1,6 @@
 from app import db
 from flask_login import UserMixin
-from datetime import date
+from datetime import datetime, timedelta, date
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -100,6 +100,13 @@ class MedicalHistory(db.Model):
     date = db.Column(db.Date, default=date.today)
     
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class Notifications(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    notification = db.Column(db.String())
+    date = db.Column(db.Date, default=date.today)
+
+    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
 class ObstetricInformation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -124,6 +131,7 @@ class Predict(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     result = db.Column(db.Integer)
     date = db.Column(db.Date, default=date.today)
+    next_schedule = db.Column(db.Date, default=lambda: (datetime.now() + timedelta(weeks=2)).date())
 
     user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
