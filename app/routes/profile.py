@@ -32,9 +32,9 @@ def upload_picture():
         new_name = "gbstaiapp_image" + str(current_user.id) + file_extension 
         # file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
-        file.save('/home/gbstaiapp/gbst-api/profile_image/'+ new_name)
+        file.save('/home/gbstaiapp/gbst-api/static/profile_image/'+ new_name)
         path = os.path.join(current_app.config['UPLOAD_FOLDER']) + '/' + new_name
-        profile_picture_uri = f"https://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/profile_image/{new_name}"
+        profile_picture_uri = f"https://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/static/profile_image/{new_name}"
         if profile:
             profile.profile_picture = profile_picture_uri
             db.session.commit()
