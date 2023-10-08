@@ -34,12 +34,13 @@ def upload_picture():
 
         file.save('/home/gbstaiapp/gbst-api/static/profile_image/'+ new_name)
         path = os.path.join(current_app.config['UPLOAD_FOLDER']) + '/' + new_name
-        profile_picture_uri = f"https://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/static/profile_image/{new_name}"
+        profile_picture_uri = f"https://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/assets/profile_image/{new_name}"
+        static_uri = f"https://www.pythonanywhere.com/static/user/gbstaiapp/files/home/gbstaiapp/gbst-api/assets/profile_image/{new_name}"
         if profile:
             profile.profile_picture = profile_picture_uri
             db.session.commit()
             return {"message":'File successfully uploaded.', 
-                "uri":profile_picture_uri,
+                "uri":static_uri,
                 "local_path": path
                 }, HTTP_200_OK
         
@@ -48,7 +49,7 @@ def upload_picture():
             db.session.add(profile)
             db.session.commit() 
             return {"message":'File successfully uploaded.', 
-                "uri":profile_picture_uri,
+                "uri":static_uri,
                 "local_path": path
                  }, HTTP_200_OK
 
