@@ -32,7 +32,7 @@ def upload_picture():
         new_name = "gbstaiapp_image" + str(current_user.id) + file_extension 
         # file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
-        file.save('/home/gbstaiapp/gbst-api/static/profile_image/'+ new_name)
+        file.save('/home/gbstaiapp/gbst-api/assets/profile_image/'+ new_name)
         path = os.path.join(current_app.config['UPLOAD_FOLDER']) + '/' + new_name
         profile_picture_uri = f"https://www.pythonanywhere.com/user/gbstaiapp/files/home/gbstaiapp/gbst-api/assets/profile_image/{new_name}"
         static_uri = f"https://www.pythonanywhere.com/static/user/gbstaiapp/files/home/gbstaiapp/gbst-api/assets/profile_image/{new_name}"
@@ -126,5 +126,30 @@ def fullname():
     user = User.query.filter_by(id=current_user.id).first()
     if user:
         return {"fullname":user.fullname,'email':user.email}
+
+@profile_blueprint.post("/save_profile_picture_uri")
+@login_required
+def save_profile_picture_uri():
+    image_uri = request.json['image_uri']
+    profile = Profile.query.filter_by(user_id=current_user.id).first()
+
+    if profile:
+        profile.profile_picture = image_uri
+        db.session.commit()
+        return {"message":'File successfully uploaded.', 
+            "uri":image_uri,
+            }, HTTP_200_OK
+    
+    if not profile:
+        profile_image = Profile(profile_picture = image_uri, user_id=current_user.id)
+        db.session.add(profile_image)
+        db.session.commit() 
+        return {"message":'File successfully uploaded.', 
+            "uri":image_uri,
+                }, HTTP_200_OK
+
+
+    return jsonify(error='Invalid request'), HTTP_400_BAD_REQUEST
+
 
 
