@@ -133,7 +133,7 @@ class Predict(db.Model):
     date = db.Column(db.Date, default=date.today)
     next_schedule = db.Column(db.Date, default=lambda: (datetime.now() + timedelta(weeks=2)).date())
 
-    user_id =db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)

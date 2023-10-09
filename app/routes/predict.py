@@ -142,5 +142,9 @@ def predict():
             return {"message":f"{e}{dictionary_data}"}
     
 
+@predict_blueprint.get('/next_schedule')
+@login_required
+def next_schedule():
+    predict = Predict.query.filter_by(userId=current_user.id).first()
 
 # dd

@@ -46,6 +46,7 @@ def sendEmail(eml, message):
     check if user is admin and then query the prediction table
 """
 
+# send notification
 @notification_blueprint.post('/')
 @login_required
 def admin_notification():
@@ -75,27 +76,33 @@ def admin_notification():
                             Sugar status. Kindly do so in order to keep up with your schedule."
                 sendEmail(email, message)
                 # notifications table
-                notifications = Notifications(notifications=message, user_id=verified_user.id)
+                notifications = Notifications(notification=message, user_id=verified_user.id)
                 db.session.add(notifications)
                 db.session.commit()
                 return {"message": f"Notification sent to {email}"}, HTTP_200_OK
-            return{"message":"All users already tested their GDM"}, HTTP_400_BAD_REQUEST
+            return{"message":"All users already tested their GDM"}, HTTP_200_OK
+        return {"message": "Invalid request"}, HTTP_400_BAD_REQUEST
         
 
+# retrieve saved notifications
 @notification_blueprint.get('/')
 @login_required
 def get_notifications():
     notifications = Notifications.query.filter_by(user_id = current_user.id).all()
 
+    if not notifications:
+        return {"message": "No notification"}
     if notifications:
         notifications_data = [
             {'id': notification.id, 'notification': notification.notification, "user_id": notification.user_id} 
             for notification in notifications
         ]
 
-        return {"data": notifications_data}
+        return {"message": "Notifications retrieved successfully", "data": notifications_data}, HTTP_200_OK
+    # return {"message": "Invalid request"}, HTTP_400_BAD_REQUEST
 
-@notification_blueprint.delete('/')
+# delete notification
+@notification_blueprint.delete('/de')
 @login_required
 def delete_notification():
 
