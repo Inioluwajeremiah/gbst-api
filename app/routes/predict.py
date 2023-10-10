@@ -132,7 +132,7 @@ def predict():
             if prediction_outcome == 1:
                 message = "Your result shows that you don't have GDM"
                 sendEmail(user.email, message)
-                notifications = Notifications(notification=message, user_id=verified_user.id)
+                notifications = Notifications(notification=message, user_id=current_user.id)
                 db.session.add(notifications)
                 db.session.commit()
                 return {'message': "You don't have GDM"}, HTTP_200_OK
@@ -140,12 +140,12 @@ def predict():
             if prediction_outcome == 0:
                 message = "Your result that your Blood Sugar is Normal"
                 sendEmail(user.email, message)
-                notifications = Notifications(notification=message, user_id=verified_user.id)
+                notifications = Notifications(notification=message, user_id=current_user.id)
                 db.session.add(notifications)
                 db.session.commit()
                 return {'message': 'You have GDM'}, HTTP_200_OK
         except Exception as e:
-            return {"message":f"{e}{dictionary_data}"}
+            return {"message":f"{e}"}
     
 @predict_blueprint.get('/get_result')
 @login_required
