@@ -150,8 +150,8 @@ def predict():
 @predict_blueprint.get('/get_result')
 @login_required
 def get_result():
-    predict = predict = Predict.query.filter_by(userId=current_user.id).first()
-    if predict.result is not None:
+    predict = predict = Predict.query.filter_by(user_id=current_user.id).first()
+    if predict and predict.result is not None:
 
         prediction_outcome = predict.result
         if prediction_outcome == 1:
@@ -159,6 +159,7 @@ def get_result():
             
         if prediction_outcome == 0:
             return {"message": "Your Last Test Shows You have GDM"}, HTTP_200_OK
+    return {"Message": "Result not found"}
         
 @predict_blueprint.get('/next_schedule')
 @login_required
