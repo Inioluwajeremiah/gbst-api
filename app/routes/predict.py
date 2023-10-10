@@ -127,7 +127,9 @@ def predict():
 
             # print(predict_gbst)
             prediction_outcome = predict_gbst.tolist()[0]
-            predict.result = prediction_outcome
+            predict = Predict(result= prediction_outcome, user_id=current_user.id)
+            # predict.result = prediction_outcome
+            db.session.add(predict)
             db.session.commit()
             if prediction_outcome == 1:
                 message = "Your result shows that you don't have GDM"
@@ -151,15 +153,14 @@ def predict():
 @login_required
 def get_result():
     predict = predict = Predict.query.filter_by(user_id=current_user.id).first()
-    if predict and predict.result is not None:
-
+    if predict:
         prediction_outcome = predict.result
         if prediction_outcome == 1:
             return {"message": "Your Last Test Shows Your Blood Sugar is Normal"}, HTTP_200_OK
             
         if prediction_outcome == 0:
             return {"message": "Your Last Test Shows You have GDM"}, HTTP_200_OK
-    return {"Message": "Result not found"}
+    return {"message": "Result not found"}
         
 @predict_blueprint.get('/next_schedule')
 @login_required
