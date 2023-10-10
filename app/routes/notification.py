@@ -93,7 +93,9 @@ def get_notifications():
         return {"message": "No notification"}
     if notifications:
         notifications_data = [
-            {'id': notification.id, 'notification': notification.notification, "user_id": notification.user_id, "date": notification.date} 
+            {   'id': notification.id, 'notification': notification.notification, "user_id": notification.user_id,
+                "date": notification.date.strftime("%a, %d %b %Y")
+            } 
             for notification in notifications
         ]
 
