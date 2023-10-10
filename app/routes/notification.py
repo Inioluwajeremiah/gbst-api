@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from app.databaseModel import db, User, Predict, Notifications
-from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 from flask_login import login_required, current_user
 from datetime import date
 from flask_mail import Message
@@ -106,19 +106,24 @@ def get_notifications():
 @notification_blueprint.delete('/')
 @login_required
 def delete_notification():
-
-    items = request.json['items']
     user_id = current_user.id
-    notifications = Notifications.query.filter_by(user_d=user_id).all()
+    notifications = Notifications.query.filter_by(user_id=user_id, ).all()
+    if notifications:
 
-    for nots in notifications:
-        if nots.id in items:
-            notification = Notifications.query.get(nots.id)
-            db.session.delete(notification)
+        try:
+            # Delete all rows in the table
+            db.session.query(Notifications).delete()
+
+            # Commit the changes to the database
             db.session.commit()
-            return {"message": "Record deleted successfully"}
-        return{"message": "Record not found"}
-    
+            return {"message": "Notifications deleted successfully"}
+
+            
+        except Exception as e:
+            # Handle any exceptions that may occur during the deletion
+            return {"message": f"Error preforming request: {e}"}
+    return{"message": "No notification found"}, HTTP_404_NOT_FOUND
+
 
 
 
