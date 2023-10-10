@@ -116,8 +116,9 @@ def delete_notification():
             notification = Notifications.query.get(nots.id)
             db.session.delete(notification)
             db.session.commit()
-            return {"message": "Record deleted successsfully"}
+            return {"message": "Record deleted successfully"}
         return{"message": "Record not found"}
+    
 
 
 

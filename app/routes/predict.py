@@ -1,5 +1,5 @@
 from flask import jsonify, Blueprint
-from app.databaseModel import db, User, Enrollment, MedicalHistory, ClinicalHistory, ChildBirthOutcome, ObstetricInformation, Predict
+from app.databaseModel import db, User, Enrollment, MedicalHistory, ClinicalHistory, ChildBirthOutcome, Notifications, ObstetricInformation, Predict
 from app.status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from flask_login import login_required, current_user
 import pickle
@@ -132,16 +132,34 @@ def predict():
             if prediction_outcome == 1:
                 message = "Your result shows that you don't have GDM"
                 sendEmail(user.email, message)
+                notifications = Notifications(notification=message, user_id=verified_user.id)
+                db.session.add(notifications)
+                db.session.commit()
                 return {'message': "You don't have GDM"}, HTTP_200_OK
                 
             if prediction_outcome == 0:
-                message = "Your result shows that you have GDM"
+                message = "Your result that your Blood Sugar is Normal"
                 sendEmail(user.email, message)
+                notifications = Notifications(notification=message, user_id=verified_user.id)
+                db.session.add(notifications)
+                db.session.commit()
                 return {'message': 'You have GDM'}, HTTP_200_OK
         except Exception as e:
             return {"message":f"{e}{dictionary_data}"}
     
+@predict_blueprint.get('/get_result')
+@login_required
+def get_result():
+    predict = predict = Predict.query.filter_by(userId=current_user.id).first()
+    if predict.result is not None:
 
+        prediction_outcome = predict.result
+        if prediction_outcome == 1:
+            return {"message": "Your Last Test Shows Your Blood Sugar is Normal"}, HTTP_200_OK
+            
+        if prediction_outcome == 0:
+            return {"message": "Your Last Test Shows You have GDM"}, HTTP_200_OK
+        
 @predict_blueprint.get('/next_schedule')
 @login_required
 def next_schedule():
