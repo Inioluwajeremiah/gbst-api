@@ -72,8 +72,7 @@ def admin_notification():
         for verified_user in verified_users:
             if verified_user.id not in prediction_user_ids:
                 email = verified_user.email
-                message = " We would like to inform you that you have not checked your Gestational Blood \
-                            Sugar status. Kindly do so in order to keep up with your schedule."
+                message = "We would like to inform you that you have not checked your Gestational Blood Sugar status. Kindly do so in order to keep up with your schedule."
                 sendEmail(email, message)
                 # notifications table
                 notifications = Notifications(notification=message, user_id=verified_user.id)
@@ -102,7 +101,7 @@ def get_notifications():
     # return {"message": "Invalid request"}, HTTP_400_BAD_REQUEST
 
 # delete notification
-@notification_blueprint.delete('/de')
+@notification_blueprint.delete('/')
 @login_required
 def delete_notification():
 
