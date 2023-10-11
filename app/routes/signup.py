@@ -110,6 +110,7 @@ def signup():
     try:
         sendEmail(email, otp)
             # add user to database
+        email = email.lower()
         user = User(fullname=fullname, email=email, password=hashed_password, otp=otp, expiration_time=expiration_time)
         db.session.add(user)
         db.session.commit()

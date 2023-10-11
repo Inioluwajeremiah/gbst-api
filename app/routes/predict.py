@@ -127,10 +127,10 @@ def predict():
 
             # print(predict_gbst)
             prediction_outcome = predict_gbst.tolist()[0]
-            predict = Predict.query.filter_by(user_id = current_user.id).first()
-            # predict = Predict(result = prediction_outcome, user_id=current_user.id)
-            predict.result = prediction_outcome
-            # db.session.add(predict)
+            # predict = Predict.query.filter_by(user_id = current_user.id).first()
+            # predict.result = prediction_outcome
+            predict = Predict(result = prediction_outcome, user_id=current_user.id)
+            db.session.add(predict)
             db.session.commit()
             if prediction_outcome == 1:
                 message = "Your result shows that you don't have GDM"
@@ -148,7 +148,7 @@ def predict():
                 db.session.commit()
                 return {'message': 'You have GDM'}, HTTP_200_OK
         except Exception as e:
-            return {"message":f"Error making prediction"}, HTTP_400_BAD_REQUEST
+            return {"message":f"Error making prediction {e}"}, HTTP_400_BAD_REQUEST
     
 @predict_blueprint.get('/get_result')
 @login_required
